@@ -8,6 +8,14 @@ from asteroid import *
 from asteroidfield import *
 import sys
 
+#TODO list:
+# - game score display
+# - print the score at the end of the game
+# - get 1 point for every frame survived
+# - get 10 points for killing asteroid
+# - once per game, a yellow asteroid spawns that gives you shooting in all directions (8 cardinal directions)
+# - add static landmines with duration of 10 seconds (increases by 1 second every 30 seconds of the game)
+
 def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
