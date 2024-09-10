@@ -7,18 +7,12 @@ from player import *
 from asteroid import *
 from asteroidfield import *
 import sys
-
-#TODO list:
-# - game score display
-# - print the score at the end of the game
-# - get 1 point for every frame survived
-# - get 10 points for killing asteroid
-# - once per game, a yellow asteroid spawns that gives you shooting in all directions (8 cardinal directions)
-# - add static landmines with duration of 10 seconds (increases by 1 second every 30 seconds of the game)
+from score import *
 
 def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    pygame.display.set_caption('Weird Asteroid game')
     game_clock = pygame.time.Clock()
 
     updatable = pygame.sprite.Group()
@@ -31,6 +25,9 @@ def main():
 
     AsteroidField.containers = updatable
     asteroid_field = AsteroidField()
+
+    Score.containers = (updatable, drawable)
+    score = Score()
     
     Player.containers = (updatable, drawable)
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
@@ -48,13 +45,14 @@ def main():
         # if player crashed, exit the game
         for asteroid in asteroids:
             if asteroid.collides_with(player):
-                print(f"Game over!")
+                print(f"Game over! You got {score.score:.0f} points.")
                 sys.exit()
 
         for asteroid in asteroids:
             for shot in shots:
                 if asteroid.collides_with(shot):
                     shot.kill()
+                    score.update(10)
                     asteroid.split()
 
         screen.fill("black")
